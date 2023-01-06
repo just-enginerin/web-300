@@ -1,2 +1,4 @@
-# web-300
- Coursework for Bellevue University's WEB: 300 - Enterprise JavaScript II taught by Professor Krasso.
+# WEB 330: Enterprise JavaScript II
+##  Contributors
+- Professor Krasso
+- Erin Brady
