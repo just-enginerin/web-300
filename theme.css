@@ -1,0 +1,154 @@
+
+/**
+Title: theme.css
+Author: Professor Krasso
+Date: 1/6/2023
+Modified By: Erin Brady
+Description: Styling for unique themes to be applied to all files within WEB 330 Coursework repository
+*/
+
+/* Theme colors */
+body.light-theme {
+    --text-color: #000;
+    --background-color: #fff;
+    --anchor-color: #4F3674;
+    --h1-background-color: #3c275a;
+    --h1-border-color: #D6A800;
+    --heading-background-color: #3c275a;
+    --heading-color: #fff;
+    --heading-border-color: #D6A800;
+    --anchor-hover-color: #4F3674;
+    --anchor-hover-background-color: #D6A800;
+    --card-background-color: #fff;
+    --card-title-color: #4F3674;
+    --btn-background-color: #4F3674;
+    --btn-color: #fff;
+    --btn-hover-background-color: #D6A800;
+    --btn-hover-color: #4F3674;
+    --input-border-color: #ccc;
+}
+
+body.dark-theme {
+    --text-color: #fafafa;
+    --background-color: #303030;
+    --anchor-color: #fff;
+    --h1-background-color: #9c27b0;
+    --h1-border-color: #9c27b0;
+    --heading-background-color: #424242;
+    --heading-color: #fff;
+    --heading-border-color: #424242;
+    --anchor-hover-color: #D176E1;
+    --anchor-hover-background-color: #303030;
+    --card-background-color: #424242;
+    --card-title-color: #D176E1;
+    --btn-background-color: #D176E1;
+    --btn-color: #fff;
+    --btn-hover-background-color: #7D4787;
+    --btn-hover-color: #fff;
+    --input-border-color: #303030;
+}
+
+/* Apply dynamic theme colors to elements */
+
+body {
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-family: "Oswald", "Verdana", "Arial", "sans-serif";
+}
+
+/* Links */
+a {
+    color: var(--anchor-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--anchor-hover-color);
+    background-color: var(--anchor-hover-background-color);
+}
+
+/* Headers */
+h1 {
+    color: var(--heading-color);
+    background-color: var(--h1-background-color);
+    padding: 10px;
+    border: 1px solid var(--h1-border-color);
+}
+
+h2, h3, h4 {
+    color: var(--heading-color);
+    background-color: var(--heading-background-color);
+    padding: 10px;
+    border: 1px solid var(--heading-border-color);
+}
+
+#icon-mode {
+    position: sticky;
+    top: 0;
+    width: 97vw;
+    text-align: right;
+}
+
+/* Cards */
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    background-color: var(--card-background-color);
+}
+
+.card-title {
+    text-align: center;
+    font-size: 2em;
+    color: var(--card-title-color);
+    font-weight: 400;
+}
+
+.card-content {
+    padding: 2px 16px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons */
+.btn {
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    padding: 15px 32px;
+    color: #000;
+}
+
+.btn-primary {
+    background-color: var(--btn-background-color);
+    color: var(--btn-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--btn-background-color);
+    color: var(--btn-color);
+}
+
+/* Forms */
+.input {
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.drop-down-menu {
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+}

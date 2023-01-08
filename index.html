@@ -1,0 +1,106 @@
+<!-- 
+  Title: index.html
+  Author: Erin Brady
+  Date: 1/6/2023
+  Modified By: Erin Brady
+  Description: Styling for unique themes to be applied to all files within WEB 330 Coursework repository
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Standard HTML settings -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WEB 330 – Enterprise JavaScript II</title>
+
+  <!-- Global Stylesheets -->
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="theme.css">
+
+  <!-- Fonts -->
+  <script src="https://kit.fontawesome.com/a5fd2fa803.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap">
+
+  <!-- JavaScript -->
+  <script src="theme.js"></script>
+</head>
+
+<body class="light-theme">
+  <main id="container">
+    <i class="fa fatoggle-off pull-right" id="icon-mode" onclick="toggleMode(this)">
+      <span id="icon-text"></span>
+    </i>
+
+    <h1>Erin Brady's Landing Page</h1>
+    <h2>WEB 330's Enterprise JavaScript II</h2>
+    <hr>
+
+    <h3>Weekly Assignments</h3>
+    <ul>
+      <li>Assignment 2.2</li>
+      <li>Assignment 3.2</li>
+      <li>Assignment 4.2</li>
+      <li>Assignment 5.2</li>
+      <li>Assignment 6.2</li>
+      <li>Assignment 7.2</li>
+      <li>Assignment 8.2</li>
+    </ul>
+
+    <h3>Projects</h3>
+    <ul>
+      <li>Personal Portfolio</li>
+    </ul>
+
+    <h4>Important Links</h4>
+    <ul>
+      <li><a href="https://github.com/buwebdev/web-330">WEB 330’s GitHub Repository</a></li>
+      <li><a href="https://bruinconnect.bellevue.edu/">BRUIN Connect</a></li>
+      <li><a href="https://validator.w3.org/">W3C HTML Validator</a></li>
+      <li><a href="http://jigsaw.w3.org/css-validator/">W3C CSS Validator</a></li>
+      <li><a href="https://www.w3schools.com/html/">HTML Tutorial</a></li>
+      <li><a href="https://www.w3schools.com/js/js_best_practices.asp">JavaScript Best Practices</a></li>
+    </ul>
+  </main>
+
+  <script>
+
+    // Set the default theme to light if one has not been set in the browsers localStorage
+    setDefaultTheme();
+
+    /**
+     * Function to switch the users selected website theme
+     * @param x - this instance
+    */
+    const toggleMode = (x) => {
+      let colorTheme = document.body.classList; // get the body's CSS class
+      let iconMode = x.classList; // get the current classes assigned to the triggered button
+
+      // If the current body class is set to the light-theme, update the user's preference to the dark-theme in the browsers local storage.
+      if (colorTheme.value === "light-theme") {
+        localStorage.clear();
+        localStorage.setItem("mode", "dark-theme");
+        localStorage.setItem("iconMode", "fa-toggle-on");
+        localStorage.setItem("iconText", "Dark Mode");
+      }
+      
+      // If the current body class is set to the dark-theme, update the user's preference to the light-theme in the browsers local storage.
+      else {
+        localStorage.clear();
+        localStorage.setItem("mode", "light-theme");
+        localStorage.setItem("iconMode", "fa-toggle-off");
+        localStorage.setItem("iconText", "Light Mode");
+      }
+
+      // Apply the updated selection to the HTML page elements
+      colorTheme.value = localStorage.getItem("mode");
+      iconMode.value = `fa ${localStorage.getItem("iconMode")} pull-right`;
+      document.getElementById("icon-text").innerHTML = localStorage.getItem("iconText");
+    }
+  </script>
+
+</body>
+</html>
