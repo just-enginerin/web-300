@@ -5,150 +5,155 @@
   Description: Palindrome App
 -->
 
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
+	<head>
+		<!-- Standard HTML settings -->
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>WEB 330 – Enterprise JavaScript II</title>
 
-  <!-- Standard HTML settings -->
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WEB 330 – Enterprise JavaScript II</title>
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="../site.css" />
+		<link rel="stylesheet" href="../theme.css" />
 
-  <!-- Global Stylesheets -->
-  <link rel="stylesheet" href="../site.css">
-  <link rel="stylesheet" href="../theme.css">
+		<!-- Fonts -->
+		<script
+			src="https://kit.fontawesome.com/a5fd2fa803.js"
+			crossorigin="anonymous"></script>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" />
 
-  <!-- Fonts -->
-  <script src="https://kit.fontawesome.com/a5fd2fa803.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap">
+		<!-- JavaScript -->
+		<script src="../theme.js"></script>
+	</head>
 
-  <!-- JavaScript -->
-  <script src="../theme.js"></script>
-</head>
+	<body class="light-theme">
+		<main id="container">
+			<i
+				class="fa fatoggle-off pull-right"
+				id="icon-mode"
+				onclick="toggleMode(this)">
+				<span id="icon-text"></span>
+			</i>
 
-<body class="light-theme">
-  <main id="container">
-    <i class="fa fatoggle-off pull-right" id="icon-mode" onclick="toggleMode(this)">
-      <span id="icon-text"></span>
-    </i>
+			<h1 class="app-header">Welcome to the Palindrome App!</h1>
 
-    <h1 class="app-header">Welcome to the Palindrome App!</h1>
+			<!-- User Input Area -->
+			<div class="card">
+				<div class="card-title">Palindrome Checker</div>
+				<div class="card-content" id="guess-number-card">
+					<div class="form">
+						<div class="form-field">
+							<label for="txtPhrase">Phrase Value: </label>
+							<input id="txtPhrase" />
+						</div>
 
-    <!-- User Input Area -->
-    <div class="card">
-			<div class="card-title">Palindrome Checker</div>
-			<div class="card-content" id="guess-number-card">
-				<div class="form">
-					<div class="form-field">
-						<label for="txtPhrase">Phrase Value: </label>
-						<input id="txtPhrase">
-					</div>
-
-					<!-- Form Submission -->
-					<div class="form-field">
-						<button class="btn btm-primary full-width" id="btnCheckPhrase">
-							Check Phrase
-						</button>
+						<!-- Form Submission -->
+						<div class="form-field">
+							<button class="btn btm-primary full-width" id="btnCheckPhrase">
+								Check Phrase
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
-    </div>
 
-    <a href="../index.html" class="return-home">Return</a>
+			<a href="../index.html" class="return-home">Return</a>
 
-    <!-- Results Display Area -->
-    <div class="card">
-			<div class="card-title">Palindrome Results</div>
-			<div class="card-content" id="result">
-				<div id="assign-results-header"></div>
-				<div id="assign-results" class="assign-results-text"></div>
+			<!-- Results Display Area -->
+			<div class="card">
+				<div class="card-title">Palindrome Results</div>
+				<div class="card-content" id="result">
+					<div id="assign-results-header"></div>
+					<div id="assign-results" class="assign-results-text"></div>
+				</div>
 			</div>
-    </div>
-  </main>
+		</main>
 
-  <script>
+		<script>
+			// Set the default theme to light if one has not been set in the browsers localStorage
+			setDefaultTheme()
 
-    // Set the default theme to light if one has not been set in the browsers localStorage
-    setDefaultTheme();
+			/**
+			 * Function to retrieve the current date.
+			 * @returns {date}
+			 */
+			const getTodaysDate = () => new Date().toLocaleDateString("en-US")
 
-	/**
-	 * Function to retrieve the current date.
-	 * @returns {date}
-	*/
-	const getTodaysDate = () => new Date().toLocaleDateString("en-US")
+			/**
+			 * Function to retrieve the length of the input text.
+			 * @param {string} text
+			 * @returns {number}
+			 */
+			const getLength = (text) => {
+				if (!text) return 0
+				// If the input is a string, return the length of the string.
+				else if (typeof text === "string") return text.length
+				// Otherwise, convert the input into a string and return its length.
+				else return `${text}`.length
+			}
 
-	/**
-	 * Function to retrieve the length of the input text.
-	 * @param {string} text
-	 * @returns {number}
-	*/
-	const getLength = (text) => {
-		if (!text) return 0
+			/**
+			 * Function to reverse the characters within a string.
+			 * @param {string} text
+			 * @returns {string}
+			 */
+			const reverse = (text) => {
+				// Add each character within the text parameter to the textArr array.
+				const textArr = []
+				for (let i = 0; i < text.length; i++) {
+					textArr[i] = text.charAt(i)
+				}
 
-		// If the input is a string, return the length of the string.
-		else if(typeof text === "string") return text.length
+				// Reverse the textArr array.
+				const reversedTextArr = textArr.reverse()
 
-		// Otherwise, convert the input into a string and return its length.
-		else return `${text}`.length
-	}
+				// Append each character within the reversedTextArr array to the reversedTextStr string.
+				let reversedTextStr = ""
+				for (let char in reversedTextArr)
+					reversedTextStr += reversedTextArr[char]
 
-	/**
-	 * Function to reverse the characters within a string.
-	 * @param {string} text
-	 * @returns {string}
-	*/
-	const reverse = (text) => {
-		// Add each character within the text parameter to the textArr array.
-		const textArr = []
-		for(let i = 0; i < text.length; i++) {
-			textArr[i] = text.charAt(i)
-		}
+				return reversedTextStr
+			}
 
-		// Reverse the textArr array.
-		const reversedTextArr = textArr.reverse()
+			/**
+			 * Function to determine whether a string is a palindrome.
+			 * @param {string} text
+			 * @returns {boolean}
+			 */
+			const isPalindrome = (text) => text === reverse(text)
 
-		// Append each character within the reversedTextArr array to the reversedTextStr string.
-		let reversedTextStr = ""
-		for(let char in reversedTextArr) reversedTextStr += reversedTextArr[char]
-
-		return reversedTextStr
-	}
-	
-	/**
-	 * Function to determine whether a string is a palindrome.
-	 * @param {string} text
-	 * @returns {boolean}
-	*/
-	const isPalindrome = (text) => text === reverse(text)
-
-	// When the "Check Phrase" button is clicked, the user is able to see the current date, the original phrase, the reversed phrase, its length, and whether or not the original phrase is a palindrome.
-	document.getElementById("btnCheckPhrase").onclick = () => {
-	
-		const txtPhrase = document.getElementById("txtPhrase").value
-		const today = getTodaysDate()
-		const len = getLength(txtPhrase)
-		const reversedPhrase = reverse(txtPhrase)
-		const header = `
+			// When the "Check Phrase" button is clicked, the user is able to see the current date, the original phrase, the reversed phrase, its length, and whether or not the original phrase is a palindrome.
+			document.getElementById("btnCheckPhrase").onclick = () => {
+				const txtPhrase = document.getElementById("txtPhrase").value
+				const today = getTodaysDate()
+				const len = getLength(txtPhrase)
+				const reversedPhrase = reverse(txtPhrase)
+				const header = `
 			Date: ${today}<br>
 			Original Phrase: ${txtPhrase}<br>
 			Reversed Phrase: ${reversedPhrase}<br>
 			Phrase Length: ${len}
 		`
-		const assignResultsHeader = document.getElementById("assign-results-header")
-		const assignResults = document.getElementById("assign-results")
+				const assignResultsHeader = document.getElementById(
+					"assign-results-header"
+				)
+				const assignResults = document.getElementById("assign-results")
 
-		// If the user entered a valid phrase, display the results.
-		if(txtPhrase) {
-			assignResultsHeader.innerHTML = header
-			assignResults.innerHTML = `${txtPhrase} <u>${isPalindrome(txtPhrase) ? "is" : "is not"}</u> a palindrome!`
-		
-		// Otherwise, display an error message.
-		} else assignResultsHeader.innerHTML = "Error: Please enter a valid phrase."
-	}
+				// If the user entered a valid phrase, display the results.
+				if (txtPhrase) {
+					assignResultsHeader.innerHTML = header
+					assignResults.innerHTML = `${txtPhrase} <u>${
+						isPalindrome(txtPhrase) ? "is" : "is not"
+					}</u> a palindrome!`
 
-  </script>
-
-</body>
+					// Otherwise, display an error message.
+				} else
+					assignResultsHeader.innerHTML = "Error: Please enter a valid phrase."
+			}
+		</script>
+	</body>
 </html>

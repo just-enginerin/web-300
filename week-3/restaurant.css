@@ -1,0 +1,45 @@
+/**
+Title: restaurant.css
+Author: Erin Brady
+Date: 1/21/2023
+Description: Styling for the Restaurant App
+*/
+
+/* Align all menu items vertically. */
+.card-content  {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Set up the grid layout of the outer Restaurant Menu div. */
+#menu {
+    display: grid;
+    width: 70%;
+    margin: 10px auto;
+    grid-template-areas: 
+        "Beverages Appetizers"
+        "MainCourses Desserts";
+        gap: 30px;
+}
+
+/* Assign each menu section to its corresponding area in the grid. */
+#beverages-card {
+    grid-area: Beverages;
+}
+
+#appetizers-card {
+    grid-area: Appetizers;
+}
+
+#main-courses-card {
+    grid-area: MainCourses;
+}
+
+#desserts-card {
+    grid-area: Desserts;
+}
+
+/* Center the calculated Order Total */
+.assign-results-text {
+    text-align: center;
+}
