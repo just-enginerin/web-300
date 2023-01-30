@@ -1,0 +1,98 @@
+<!-- 
+  Title: brady-calorie.html
+  Author: Erin Brady
+  Date: 1/29/2023
+  Description: Calorie App
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Standard HTML settings -->
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>WEB 330 – Enterprise JavaScript II</title>
+
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="../site.css" />
+		<link rel="stylesheet" href="../theme.css" />
+
+		<!-- Custom Stylesheet -->
+		<link rel="stylesheet" href="./brady-calorie.css" />
+
+        <!-- Fonts -->
+		<script
+			src="https://kit.fontawesome.com/a5fd2fa803.js"
+			crossorigin="anonymous"></script>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" />
+
+		<!-- JavaScript -->
+		<script src="../theme.js"></script>
+	</head>
+
+	<body class="light-theme">
+		<main id="container">
+			<i
+				class="fa fatoggle-off pull-right"
+				id="icon-mode"
+				onclick="toggleMode(this)">
+				<span id="icon-text"></span>
+			</i>
+
+			<h1 class="app-header">Welcome to the Calorie App!</h1>
+
+			<!-- User Input Area: Food Item Search Form -->
+			<div class="card">
+				<div class="card-title">Calorie Search Form</div>
+				<div class="card-content">
+                    <div class="form">
+						<div class="form-field">
+							<label for="txtFoodItem">Enter a food item: </label>
+							<input id="txtFoodItem" />
+                            <span id="foodList"><i>(Ex: Egg, Apple, Hamburger, Fries, Banana, Soda)</i></span>
+						</div>
+
+						<!-- Form Submission -->
+						<div class="form-field">
+							<button class="btn btm-primary full-width" id="btnSearch">
+								Search
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+      <!-- Return Home Link -->
+			<a href="../index.html" class="return-home">Return</a>
+
+			<!-- Results Display Area -->
+			<div class="card">
+				<div class="card-title">Search Results</div>
+				<div class="card-content assign-results-text" id="searchResults">
+					<th></th>
+					<tb></tb>
+				</div>
+			</div>
+		</main>
+
+		<script type="module">
+			import CalorieConverter from "./calorie-converter.js"
+
+			// Set the default theme to light if one has not been set in the browsers localStorage.
+			setDefaultTheme()
+
+			const txtFoodItemEl = document.getElementById("txtFoodItem")
+
+     		// When the "Search" button is clicked:
+			document.getElementById("btnSearch").onclick = () => {
+				let txtFoodItem = txtFoodItemEl.value
+				const foods = CalorieConverter.find(txtFoodItem.toLowerCase())
+
+				const tableData = ""
+			}
+		</script>
+	</body>
+</html>

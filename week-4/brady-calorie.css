@@ -1,0 +1,13 @@
+/* 
+  Title: brady-calorie.css
+  Author: Erin Brady
+  Date: 1/29/2023
+  Description: Calorie App styling 
+*/
+
+#foodList {
+    float: right;
+    color: #df546a;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
