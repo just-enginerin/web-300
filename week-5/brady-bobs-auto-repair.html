@@ -1,0 +1,153 @@
+<!-- 
+  Title: brady-bobs-auto-repair.html
+  Author: Erin Brady
+  Date: 2/5/2023
+  Description: Bob's Auto Repair App
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Standard HTML settings -->
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>WEB 330 – Enterprise JavaScript II</title>
+
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="../site.css" />
+		<link rel="stylesheet" href="../theme.css" />
+
+		<!-- Custom Stylesheet -->
+		<link rel="stylesheet" href="./brady-bobs-auto-repair.css" />
+
+        <!-- Fonts -->
+		<script
+			src="https://kit.fontawesome.com/a5fd2fa803.js"
+			crossorigin="anonymous"></script>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" />
+
+		<!-- JavaScript -->
+		<script src="../theme.js"></script>
+        <script src="./cart-component.js"></script>
+	</head>
+
+	<body class="light-theme">
+		<main id="container">
+			<i
+				class="fa fatoggle-off pull-right"
+				id="icon-mode"
+				onclick="toggleMode(this)">
+				<span id="icon-text"></span>
+			</i>
+
+			<h1 class="app-header">Welcome to Bob's Automotive Repair Shop!</h1>
+
+			<!-- User Input Area: Product Listing Form -->
+			<div class="card">
+				<div class="card-title">
+                    Product Listing
+                    <br>
+                    <cart-component/>
+                </div>
+				<div class="card-content">
+                    <div class="form">
+						<div class="form-field">
+							<label for="productList">Choose a Product: </label>
+							<select id="productList" class="drop-down-menu">
+                                <option value="Select">--Select--</option>
+                                <option value="19.99">Oil Change</option>
+                                <option value="18.44">Filter Replacement</option>
+                                <option value="9.99">Wiper Fluid Refill</option>
+                            </select>
+						</div>
+                        <i id="cartMessage">To view your shopping cart, click on the cart icon.</i>
+
+						<!-- Form Submission -->
+						<div class="form-field">
+							<button class="btn btm-primary full-width" id="btnAddProduct">
+								Add Product
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+            <!-- Return Home Link -->
+			<a href="../index.html" class="return-home">Return</a>
+
+			<!-- Results Display Area -->
+			<div class="card">
+				<div id="shoppingCart" class="card-content assign-results-text">
+				</div>
+			</div>
+		</main>
+
+		<script type="module">
+			import Product from "./product.js"
+            import ShoppingCart from "./shopping-cart.js"
+
+			// Set the default theme to light if one has not been set in the browsers localStorage.
+			setDefaultTheme()
+
+			const btnAddProduct = document.getElementById("btnAddProduct")
+            const shoppingCart = new ShoppingCart()
+            
+             /**
+             * Display the number of items currently in the cart.
+             */
+            const setCartCount = () => {
+                document.getElementById("cart-count").innerHTML = `${shoppingCart.count()}`
+            }
+
+            const productList = document.getElementById("productList")
+
+     		// When the "Add Product" button is clicked:
+			btnAddProduct.onclick = () => {
+                // Reset any previously generated shopping cart
+                document.getElementById("shoppingCart").innerHTML = ""
+
+                // Collect selected Product data
+                let product = productList.options[productList.selectedIndex].text
+                let productValue = productList.options[productList.selectedIndex].value
+
+                // If the user selects a valid product, add it to the cart, alert the user that it was added, and reset the selection.
+                if(product !== "--Select--") {
+                    shoppingCart.add(new Product(product, productValue))
+                    setCartCount()
+                    window.alert(`${product} was added to your shopping cart!`)
+                    productList.value = "Select"
+                }
+			}
+
+            // When the user clicks on the cart icon
+            document.getElementById("cartIcon").onclick = () => {
+
+                // Generate a table of all items currently in the cart.
+				let cartDisplayTable = `
+                <div class="card-title">Shopping Cart</div>
+                <table>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                `
+                for(let cartItem of shoppingCart.products) {
+                    cartDisplayTable += `
+                        <tr>
+                            <td>${cartItem.id}</td>
+                            <td>${cartItem.name}</td>
+                            <td>${cartItem.price}</td>
+                        </tr>
+                    `
+                }
+
+                cartDisplayTable += "</table>"
+
+                // If the cart has items, display the table. Otherwise, display that the cart is empty.
+                document.getElementById("shoppingCart").innerHTML = shoppingCart.count() > 0 ? cartDisplayTable : `<p>Your cart is empty.</p>`
+            }
+		</script>
+	</body>
+</html>
