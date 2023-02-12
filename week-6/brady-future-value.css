@@ -1,0 +1,18 @@
+/* 
+  Title: brady-future-value.css
+  Author: Erin Brady
+  Date: 2/11/2023
+  Description: Future Value App styling 
+*/
+
+.danger {
+    float: right;
+    color: #df546a;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.form-label {
+    display: inline-block;
+    padding-top: 1rem;
+}

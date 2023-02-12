@@ -1,0 +1,173 @@
+u<!-- 
+  Title: brady-future-value.html
+  Author: Erin Brady
+  Date: 2/11/2023
+  Description: Future Value App
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Standard HTML settings -->
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>WEB 330 – Enterprise JavaScript II</title>
+
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="../site.css" />
+		<link rel="stylesheet" href="../theme.css" />
+
+		<!-- Custom Stylesheets -->
+        <link rel="stylesheet" href="../flex-layout.css" />
+		<link rel="stylesheet" href="./brady-future-value.css" />
+
+        <!-- Fonts -->
+		<script
+			src="https://kit.fontawesome.com/a5fd2fa803.js"
+			crossorigin="anonymous"></script>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" />
+
+		<!-- JavaScript -->
+        <script src="../theme.js"></script>
+	</head>
+
+	<body class="light-theme">
+		<main id="container">
+			<i
+				class="fa fatoggle-off pull-right"
+				id="icon-mode"
+				onclick="toggleMode(this)">
+				<span id="icon-text"></span>
+			</i>
+
+			<h1 class="app-header">Welcome to the Future Value App!</h1>
+
+			<!-- User Input Area: Product Listing Form -->
+			<div class="card">
+				<div class="card-title">
+                    Future Value Calculator
+                </div>
+				<div class="card-content">
+
+                    <div class="danger col-12" id="errorLog"></div>
+
+                    <div class="form">
+						<div class="form-field">
+							<label class="form-label col-5" for="txtMonthlyPayment">Monthly Payment: </label>
+							<input type="text" class="col-7" id="txtMonthlyPayment">
+                            </input>
+						</div>
+
+                        <div class="form-field">
+							<label class="form-label col-5" for="txtYearlyRate">Interest Rate: </label>
+							<input type="text" class="col-7" id="txtYearlyRate">
+                            </input>
+                            <i class="danger col-12">Enter 11% as 11.1</i>
+						</div>
+
+                        <div class="form-field">
+							<label class="form-label col-5" for="listNumOfYears">Number of Years: </label>
+							<select id="listNumOfYears" class="drop-down-menu col-7">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+						</div>
+
+						<!-- Form Submission -->
+						<div class="form-field">
+							<button class="btn btm-primary full-width" id="btnCalculate">
+								Calculate
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+            <!-- Return Home Link -->
+			<a href="../index.html" class="return-home">Return</a>
+
+			<!-- Results Display Area -->
+			<div class="card">
+                <div class="card-title">Calculation as of <span id="today"></span></div>
+				<div id="futureValue" class="card-content">
+				</div>
+			</div>
+		</main>
+
+		<script type="module">
+			import FinanceCalculator from "./finance-calculator.js"
+            import Validator from "./validator.js"
+
+            "use strict"
+
+			// Set the default theme to light if one has not been set in the browsers localStorage.
+			setDefaultTheme()
+
+            // Display today's date
+			document.getElementById("today").innerHTML = new Date().toLocaleDateString("en-US")
+
+            // When clicking the "Calculate" button:
+            document.getElementById("btnCalculate").onclick = () => {
+                // Collect user input values.
+                let monthlyPayment = document.getElementById("txtMonthlyPayment").value
+                let rate = document.getElementById("txtYearlyRate").value
+                let years = document.getElementById("listNumOfYears").value
+                let errorLogEl = document.getElementById("errorLog")
+
+                // Validation logic for Monthly Payment
+                let monthlyPaymentValidator = new Validator("Monthly Payment", monthlyPayment)
+                monthlyPaymentValidator.addRequiredField()
+                monthlyPaymentValidator.addRequiredFloatField()
+                monthlyPaymentValidator.addFloatMinField(100)
+                
+                // Validation logic for Interest Rate
+                let rateValidator = new Validator("Interest Rate", rate)
+                rateValidator.addRequiredField()
+                rateValidator.addRequiredFloatField()
+                rateValidator.addFloatMaxField(100)
+
+                // Collect any error messages.
+                let errorLog = []
+
+                if(monthlyPaymentValidator.validate() === false) {
+                    for(let msg of monthlyPaymentValidator.messages) errorLog.push(msg)
+                }
+
+                if(rateValidator.validate() === false) {
+                    for(let msg of rateValidator.messages) errorLog.push(msg)
+                }
+
+                // If all validations are successful, display the future value.
+                if(monthlyPaymentValidator.validate() && rateValidator.validate()) {
+                    errorLogEl.innerHTML = ""
+                    let futureValue = FinanceCalculator.convertToCurrency(FinanceCalculator.calculateFutureValue(monthlyPayment, rate, years))
+                    document.getElementById("futureValue").innerHTML = `The future value is ${futureValue}`
+
+                } else {
+                    // If any errors exist, display them.
+                    errorLogEl.innerHTML = ""
+                    let errorLogMessage = "<ul>"
+
+                    for(let err of errorLog) {
+                        errorLogMessage += `<li>${err}</li>`
+                    }
+
+                    errorLogMessage += "</ul>"
+
+                    errorLogEl.innerHTML = errorLogMessage
+                }
+            }        
+		</script>
+	</body>
+</html>
