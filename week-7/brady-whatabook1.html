@@ -1,0 +1,168 @@
+<!-- 
+  Title: brady-whatabook1.html
+  Author: Erin Brady
+  Date: 16 February 2023
+  Description: WhatABook App
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Standard HTML settings -->
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>WEB 330 – Enterprise JavaScript II</title>
+
+		<!-- Global Stylesheets -->
+		<link rel="stylesheet" href="../site.css" />
+		<link rel="stylesheet" href="../theme.css" />
+
+		<!-- Custom Stylesheets -->
+        <link rel="stylesheet" href="../flex-layout.css" />
+
+        <!-- Fonts -->
+		<script
+			src="https://kit.fontawesome.com/a5fd2fa803.js"
+			crossorigin="anonymous"></script>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" />
+
+		<!-- JavaScript -->
+        <script src="../theme.js"></script>
+	</head>
+
+	<body class="light-theme">
+		<main id="container">
+			<i
+				class="fa fatoggle-off pull-right"
+				id="icon-mode"
+				onclick="toggleMode(this)">
+				<span id="icon-text"></span>
+			</i>
+
+			<h1 class="app-header">Welcome to the WhatABook, Part 1 App!</h1>
+
+			<!-- User Selection Area: Book Listings -->
+			<div class="card">
+				<div class="card-title">
+                    Book Listing
+                </div>
+				<div class="card-content" id="bookList">
+
+				</div>
+			</div>
+
+            <!-- Return Home Link -->
+			<a href="../index.html" class="return-home">Return</a>
+
+			<!-- Selected Book Display Area -->
+			<div class="card">
+                <div class="card-title">Selected Book</div>
+				<div id="selectedBook" class="card-content">
+				</div>
+			</div>
+		</main>
+
+		<script type="module">
+
+            "use strict"
+
+			// Set the default theme to light if one has not been set in the browsers localStorage.
+			setDefaultTheme()
+
+            // When the page loads...
+            window.addEventListener('DOMContentLoaded', (event) => {
+                let fileName = "./books.xml"
+
+                // Build an HTML table header for book data
+                const loadBooks = xml => {
+                    let books = xml.getElementsByTagName("book")
+                    let tableData = `
+                        <table id="bookTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th>ISBN</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Pages</th>
+                                    <th>Authors</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `
+                    // Iterate through the books data and append each record as a row in the HTML table.
+                    for (let book of books) {
+                        let isbn = book.getElementsByTagName("isbn")[0].childNodes[0].nodeValue
+                        let title = book.getElementsByTagName("title")[0].childNodes[0].nodeValue
+                        let description = book.getElementsByTagName("description")[0].childNodes[0].nodeValue
+                        let pages = book.getElementsByTagName("pages")[0].childNodes[0].nodeValue
+                        let authors = book.getElementsByTagName("authors")[0].childNodes[0].nodeValue
+
+                        tableData += `
+                            <tr>
+                                <td data-value="ISBN">
+                                    <a href="#" class="isbn-link">
+                                        ${isbn}
+                                    </a>
+                                </td>
+                                <td data-value="Title">${title}</td>
+                                <td data-value="Description">${description}</td>
+                                <td data-value="Pages">${pages}</td>
+                                <td data-value="Authors">${authors}</td>
+                            </tr>
+                        `
+                    }
+
+                    tableData += `
+                            </tbody>
+                        </table>
+                    `
+                    
+                    // Display the Books table
+                    document.getElementById("bookList").innerHTML = tableData
+                }
+
+                // WHen an anchor is clicked, display its corresponding book data 
+                function anchorClicked(e) {
+                    e.preventDefault()
+
+                    let self = this
+                    let cell = self.parentElement
+                    let row = cell.parentElement
+
+                    let data = row.querySelectorAll("td")
+
+                    let bookData = `<ul>`
+
+                    for (let field of data) {
+                        bookData += `<li><b>${field.dataset.value}:</b> ${field.innerText}</li>`
+                    }
+
+                    selectedBook.innerHTML = bookData
+                }
+
+                // Add the anchorClicked() function as an event listener to each ISBN link.S
+                const addIsbnClickEvents = () => {
+                    let viewButtons = document.querySelectorAll(".isbn-link")
+
+                    for (let index = 0; index < viewButtons.length; index++) {
+                        viewButtons[index].addEventListener("click", anchorClicked)
+                    }
+                }
+
+                // Fetch the books XML file, parse its data, and render the data table.
+                fetch(fileName)
+                .then(res => res.text())
+                .then(data => {
+                    let domParser = new DOMParser()
+                    let xmlBooks = domParser.parseFromString(data, "text/xml")
+                    loadBooks(xmlBooks)
+                    addIsbnClickEvents()
+                })
+            })
+
+		</script>
+	</body>
+</html>
